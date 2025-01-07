@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 const initialState = {
   isAuthenticated: false,
-  isLoading: true,
+  isLoading: false,
   user: null,
 };
 
@@ -45,36 +45,19 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const checkAuth = createAsyncThunk(
-  "/auth/checkauth",
-  async (Token, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/api/auth/check-auth`,
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${Token}`,
-            "Cache-control":
-              "no-store, no-cache, must-revalidate, proxy-revalidate",
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      if (error.response && error.response.data) {
-        return rejectWithValue(error.response.data);
-      }
-      return rejectWithValue({ message: "Something went wrong" });
-    }
-  }
-);
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action) => {},
+    setUser: (state, action) => {
+      state.isAuthenticated = true;
+      state.user = action.payload;
+    },
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.user = null;
+      localStorage.removeItem("token");
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -108,23 +91,10 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isAuthenticated = false;
         state.user = null;
-        toast.error(action?.payload?.message || "login failed");
-      })
-
-      .addCase(checkAuth.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(checkAuth.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isAuthenticated = action.payload.success;
-        state.user = action.payload.userData;
-      })
-      .addCase(checkAuth.rejected, (state) => {
-        state.isLoading = false;
-        state.isAuthenticated = false;
-        state.user = null;
+        toast.error(action?.payload?.message || "Login failed");
       });
   },
 });
-export const { setUser } = authSlice.actions;
+
+export const { setUser, logout } = authSlice.actions;
 export default authSlice.reducer;

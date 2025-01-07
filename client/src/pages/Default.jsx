@@ -1,9 +1,8 @@
-import React from 'react';
-import Header from '../components/Header';
-import HeroSection from '../components/HeroSection';
-import FAQSection from '../components/FAQSection';
-import Footer from '../components/Footer';
-import Features from '../components/Features';
+import FAQSection from "../components/defaultPage/FAQSection";
+import Features from "../components/defaultPage/Features";
+import Footer from "../components/defaultPage/Footer";
+import Header from "../components/defaultPage/Header";
+import HeroSection from "../components/defaultPage/HeroSection";
 
 const Default = () => {
   return (
