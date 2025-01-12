@@ -31,16 +31,16 @@ const TimerAndBookmark = ({
   return (
     <div className="flex justify-between items-start sm:items-center">
       <button
-        onClick={() => toggleBookmark(questions[currentQuestion].id)}
+        onClick={() => toggleBookmark(questions[currentQuestion].questionNum)}
         className={`flex items-center justify-center p-2 gap-1 border rounded ${
-          bookmarked.includes(questions[currentQuestion].id)
+          bookmarked.includes(questions[currentQuestion].questionNum)
             ? "bg-yellow-500"
             : ""
         }`}
       >
         <FaRegBookmark />
         <span className="text-lg">
-          {bookmarked.includes(questions[currentQuestion].id)
+          {bookmarked.includes(questions[currentQuestion].questionNum)
             ? "Unmark"
             : "Mark"}
         </span>

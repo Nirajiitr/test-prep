@@ -1,8 +1,18 @@
-import React from "react";
-import { questions } from "../data";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { getBookmarkedQuestions } from "../store/test-slice";
+
 const Bookmarks = () => {
-  const bookmarkedQuestions = questions;
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { bookmarkedQuestions, isLoading, error } = useSelector((state) => state.test);
+
+  useEffect(() => {
+    if (user?._id) {
+      dispatch(getBookmarkedQuestions({ userId: user._id }));
+    }
+  }, [dispatch, user]);
 
   return (
     <div className="relative items-center justify-center w-screen h-screen overflow-hidden  font-sans bg-[#0D1117] text-[#EDEDED]  flex flex-col">
@@ -16,18 +26,33 @@ const Bookmarks = () => {
           <h2 className="text-3xl font-bold text-center text-blue-400 mb-8">
             Bookmarked Questions
           </h2>
-          {bookmarkedQuestions?.length === 0 ? (
-            <p className="text-lg">You have no bookmarked questions.</p>
+
+          {isLoading ? (
+            <p className="text-center text-lg">Loading your bookmarks...</p>
+          ) : error ? (
+            <p className="text-center text-lg text-red-500">Failed to load bookmarks. Please try again later.</p>
+          ) : bookmarkedQuestions?.length === 0 ? (
+            <p className="text-lg text-center">You have no bookmarked questions.</p>
           ) : (
-            <div className="space-y-4 p-4 ">
+            <div className="space-y-6">
               {bookmarkedQuestions?.map((question, index) => (
-                <div key={question.id} className="p-4 bg-gray-800 rounded-md">
-                  <h2 className="font-bold text-lg mb-2">
-                    Q{index + 1}: {question.question}
-                  </h2>
+                <div
+                  key={index}
+                  className="p-4 bg-gray-800 rounded-md shadow-md hover:bg-gray-700 transition-colors"
+                >
+                  <h3 className="font-bold text-lg mb-2">
+                    Q{question.questionNum}: {question.questionText}
+                  </h3>
                   <ul className="space-y-2">
                     {question.options.map((option, optionIndex) => (
-                      <li key={optionIndex} className="flex items-center gap-2">
+                      <li
+                        key={optionIndex}
+                        className={`flex items-center gap-2 p-2 rounded-md ${
+                          question.correctOption === String.fromCharCode(65 + optionIndex)
+                            ? "bg-green-700"
+                            : ""
+                        }`}
+                      >
                         <span className="font-bold">
                           {String.fromCharCode(65 + optionIndex)}:
                         </span>
@@ -35,6 +60,12 @@ const Bookmarks = () => {
                       </li>
                     ))}
                   </ul>
+                  <p className="mt-3 text-sm text-gray-400">
+                    <span className="font-semibold">Test Name:</span> {question.testName}
+                  </p>
+                  <p className="text-sm text-gray-400">
+                    <span className="font-semibold">Subject:</span> {question.subject}
+                  </p>
                 </div>
               ))}
             </div>

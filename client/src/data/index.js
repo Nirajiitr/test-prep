@@ -254,9 +254,9 @@
         id: 1,
         educatorImg: "https://via.placeholder.com/40",
         educatorName: "John Doe",
-        name: "Physics Test",
+        testName: "Physics Test",
         description: "This is a test on basic Physics concepts.",
-        class: "Class 12",
+        class: "12",
         score: 85,
         date: "2025-01-05",
       },
@@ -264,9 +264,9 @@
         id: 2,
         educatorImg: "https://via.placeholder.com/40",
         educatorName: "Jane Smith",
-        name: "Chemistry Test",
+        testName: "Chemistry Test",
         description: "A deep dive into organic chemistry.",
-        class: "Class 11",
+        class: "11",
         score: 90,
         date: "2025-01-04",
       },
@@ -274,9 +274,9 @@
         id: 3,
         educatorImg: "https://via.placeholder.com/40",
         educatorName: "Jane Smith",
-        name: "Chemistry Test",
+        testName: "Chemistry Test",
         description: "A deep dive into organic chemistry.",
-        class: "Class 11",
+        class: "11",
         score: 90,
         date: "2025-01-04",
       },
@@ -286,9 +286,65 @@
         educatorName: "Jane Smith",
         name: "Chemistry Test",
         description: "A deep dive into organic chemistry.",
-        class: "Class 11",
-        score: 90,
+        class: "11",
+        testName: 90,
         date: "2025-01-04",
       },
     ];
   
+    const a = {
+      "_id": "677e0fec574e58f2e2b53e31",
+      "testName": "Mock Test 1",
+      "class": "11",
+      "description": "A comprehensive test",
+      "educatorId": "677bb82beab5ab44313551e5",
+      "educatorName": "Niraj Kumar",
+      "educatorImg": "https://via.placeholder.com/40",
+      "duration": "03:00:00",
+      "questions": [
+          {
+              "questionNum": 1,
+              "subject": "physics",
+              "questionText": "What is the unit of force?",
+              "options": [
+                  "Newton",
+                  "Joule",
+                  "Pascal",
+                  "Watt"
+              ],
+              "correctOption": "A",
+              "_id": "677e0fec574e58f2e2b53e32"
+          },
+          {
+              "questionNum": 2,
+              "subject": "chemistry",
+              "questionText": "What is the chemical symbol for water?",
+              "options": [
+                  "O2",
+                  "CO",
+                  "H2O",
+                  "CO2"
+              ],
+              "correctOption": "C",
+              "_id": "677e0fec574e58f2e2b53e33"
+          },
+          {
+              "questionNum": 3,
+              "subject": "mathematics",
+              "questionText": "What is 2 + 2?",
+              "options": [
+                  "4",
+                  "2",
+                  "7",
+                  "3"
+              ],
+              "correctOption": "A",
+              "_id": "677e0fec574e58f2e2b53e34"
+          }
+      ],
+      "createdAt": "2025-01-08T05:41:00.525Z",
+      "updatedAt": "2025-01-08T05:41:00.525Z",
+      "__v": 0
+  }
+
+ 

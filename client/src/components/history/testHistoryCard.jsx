@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const TestCard = ({ test, isHistory }) => {
   const handleDetailsClick = () => {
-    console.log("View Details for Test:", test.id); // Replace with navigation or modal logic
+    console.log("View Details for Test:", test.id); 
   };
 
   return (

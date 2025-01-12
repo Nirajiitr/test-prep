@@ -44,6 +44,30 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+export const checkAuth = createAsyncThunk(
+  "/auth/checkauth",
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/auth/check-auth`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Cache-control":
+              "no-store, no-cache, must-revalidate, proxy-revalidate",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({ message: "Something went wrong" });
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -56,7 +80,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
@@ -68,7 +92,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isAuthenticated = action.payload.success;
         state.user = action.payload.userData;
-        localStorage.setItem("token", JSON.stringify(action.payload.token));
+        sessionStorage.setItem("token", JSON.stringify(action.payload.token));
         toast.success(action?.payload?.message || "Registration successful");
       })
       .addCase(registerUser.rejected, (state, action) => {
@@ -84,7 +108,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isAuthenticated = action.payload.success;
         state.user = action.payload.userData;
-        localStorage.setItem("token", JSON.stringify(action.payload.token));
+        sessionStorage.setItem("token", JSON.stringify(action.payload.token));
         toast.success(action.payload.message || "Login successful");
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -92,6 +116,19 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.user = null;
         toast.error(action?.payload?.message || "Login failed");
+      })
+      .addCase(checkAuth.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = action.payload.success;
+        state.user = action.payload.userData;
+      })
+      .addCase(checkAuth.rejected, (state) => {
+        state.isLoading = false;
+        state.isAuthenticated = false;
+        state.user = null;
       });
   },
 });

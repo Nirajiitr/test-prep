@@ -5,6 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import AuthRoute from "./routes/AuthRouth.js";
 import TestRoute from "./routes/TestRoute.js";
+import ScoreRoute from "./routes/ScoreRoute.js";
 
 const app = express();
 const port = process.env.port;
@@ -44,6 +45,7 @@ app.use(cookieParser());
 // routes
 app.use("/api/auth", AuthRoute);
 app.use("/api/test", TestRoute)
+app.use("/api/score", ScoreRoute)
 
 app.listen(port || 8000, () => {
   console.log(`server is running on port: ${port}`);

@@ -1,10 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Footer from '../components/defaultPage/Footer'
 import TestHistoryCard from '../components/testHistory/TestHistoryCard'
 import { testHistory } from '../data'
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from 'react-redux';
+import { getTestHistory } from '../store/test-slice';
 
 const TestHistory = () => {
+  const dispatch = useDispatch()
+  const {user} = useSelector((state)=>state.auth)
+  const {testResHistory , isLoading } = useSelector((state)=>state.test)
+  useEffect(()=>{
+    dispatch(getTestHistory(user?._id))
+  },[dispatch, user])
+
+  
   return (
     <div className="font-sans bg-[#0D1117] text-[#EDEDED] h-screen w-screen overflow-x-hidden overflow-y-scroll no-scrollbar flex flex-col">
       <main className="flex-grow p-4">
@@ -12,7 +22,7 @@ const TestHistory = () => {
         <h2 className="text-3xl font-bold text-center text-blue-400 mb-8">
         Test History
       </h2>
-      {testHistory.length === 0 ? (
+      {testResHistory?.length === 0 ? (
         <p className="text-gray-300 text-center text-lg">No test history available.</p>
       ) : (
         <motion.div
@@ -28,8 +38,11 @@ const TestHistory = () => {
             },
           }}
         >
-          {testHistory.map((test) => (
-            <TestHistoryCard key={test.id} test={test} />
+          
+          {testResHistory && 
+          
+          testResHistory?.map((test) => (
+            <TestHistoryCard key={test.id} test={test} isLoading={isLoading} />
           ))}
         </motion.div>
       )}

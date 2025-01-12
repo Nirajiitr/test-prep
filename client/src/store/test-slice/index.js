@@ -4,8 +4,13 @@ import toast from "react-hot-toast";
 
 const initialState = {
   tests: [],
+  ongoingTest : null,
+  testResults : null,
+  testResHistory : [],
+  bookmarkedQuestions : [],
   isLoading: false,
   error: null,
+
 };
 
 export const createTest = createAsyncThunk(
@@ -34,7 +39,7 @@ export const createTest = createAsyncThunk(
   }
 );
 
-// Thunk to fetch all tests
+
 export const fetchTests = createAsyncThunk(
   "/tests/fetchAll",
   async (_, { rejectWithValue }) => {
@@ -52,14 +57,101 @@ export const fetchTests = createAsyncThunk(
     }
   }
 );
+export const getTestHistory = createAsyncThunk(
+  "/tests/score/history",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/score/history/${userId}`,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({ message: "Failed to get tests history" });
+    }
+  }
+);
+export const getBookmarkedQuestions = createAsyncThunk(
+  "/tests/score/bokmark-ques",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/score/bookmarkedques`, userId,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({ message: "Failed to get tests history" });
+    }
+  }
+);
 
-// Thunk to delete a test
+
+export const getTestById = createAsyncThunk(
+  "/tests/id",
+  async (testId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/test/get/${testId}`,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({ message: "Failed to get test" });
+    }
+  }
+);
+export const getScoreDetails = createAsyncThunk(
+  "/tests/history/result",
+  async ({scoreId}, { rejectWithValue }) => {
+    console.log(scoreId)
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/score/${scoreId}`,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({ message: "Failed to get details" });
+    }
+  }
+);
+export const SubmitTest = createAsyncThunk(
+  "/tests/submit",
+  async ({testId, userId, answers,  bookmarkedQuestions} , { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/score/test-submit/`, {testId, userId ,answers,  bookmarkedQuestions},
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({ message: "Failed to get test" });
+    }
+  }
+);
+
 export const deleteTest = createAsyncThunk(
   "/tests/delete",
   async (testId, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/api/test/get/${testId}`,
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/test/delete/${testId}`,
         { withCredentials: true }
       );
       return response.data;
@@ -83,7 +175,6 @@ const testSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Create Test
       .addCase(createTest.pending, (state) => {
         state.isLoading = true;
       })
@@ -98,23 +189,89 @@ const testSlice = createSlice({
         toast.error(state.error);
       })
 
-      // Fetch Tests
+      
       .addCase(fetchTests.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchTests.fulfilled, (state, action) => {
         state.isLoading = false;
         state.tests = action.payload || [];
-        console.log(action)
-        toast.success("Tests fetched successfully");
+       
       })
       .addCase(fetchTests.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload?.message || "Failed to fetch tests";
         toast.error(state.error);
       })
+      
+      
+      .addCase(getTestHistory.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTestHistory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.testResHistory = action.payload.testHistory || [];
+         
+      })
+      .addCase(getTestHistory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.message || "Failed to fetch tests";
+        toast.error(state.error);
+      })
+      .addCase(getBookmarkedQuestions.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBookmarkedQuestions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.bookmarkedQuestions = action.payload.bookmarkedQuestions || [];
+         
+      })
+      .addCase(getBookmarkedQuestions.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.message || "Failed to fetch bookmarkedQuestions";
+        toast.error(state.error);
+      })
+      
+      .addCase(getTestById.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTestById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.ongoingTest = action.payload || null;
+       
+      })
+      .addCase(getTestById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.message || "Failed to fetch test";
+        toast.error(state.error);
+      })
+      .addCase(getScoreDetails.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getScoreDetails.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.testResults = action.payload.scoreDetails || null;
+       
+      })
+      .addCase(getScoreDetails.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.message || "Failed to fetch result";
+        toast.error(state.error);
+      })
+      .addCase(SubmitTest.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(SubmitTest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.testResults = action.payload.score || null;
+       
+      })
+      .addCase(SubmitTest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.message || "Failed to fetch score";
+        toast.error(state.error);
+      })
 
-      // Delete Test
       .addCase(deleteTest.pending, (state) => {
         state.isLoading = true;
       })

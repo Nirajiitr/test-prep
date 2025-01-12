@@ -7,7 +7,7 @@ const testSchema = new mongoose.Schema(
     description: { type: String, required: true },
     educatorId: { 
       type: mongoose.Schema.Types.ObjectId, 
-      ref: "User", // Relates to the User model
+      ref: "User",
       required: true 
     },
     educatorName: { type: String, required: true },
@@ -15,6 +15,7 @@ const testSchema = new mongoose.Schema(
     duration: { type: String, required: true },
     questions: [
       {
+        questionNum : {type : Number, required : true},
         subject: {
           type: String,
           enum: ["physics", "chemistry", "mathematics", "biology"],

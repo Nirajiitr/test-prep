@@ -38,9 +38,9 @@ export const createTest = async (req, res) => {
       description,
       duration,
       questions,
-      educatorId: teacher.id,
+      educatorId: teacher._id,
       educatorName: teacher.fullname,
-      educatorImg: teacher.avatar || "", // Assuming teacher may have an avatar field
+      educatorImg: "https://via.placeholder.com/40",
     });
 
     await newTest.save();
@@ -56,7 +56,6 @@ export const createTest = async (req, res) => {
   }
 };
 
-// Update a test by ID
 export const updateTest = async (req, res) => {
   try {
     const validSubjects = ["physics", "chemistry", "mathematics", "biology"];
@@ -91,7 +90,6 @@ export const updateTest = async (req, res) => {
   }
 };
 
-// Get all tests
 export const getTests = async (req, res) => {
   try {
     const tests = await Test.find();
@@ -102,7 +100,6 @@ export const getTests = async (req, res) => {
   }
 };
 
-// Get a test by ID
 export const getTestById = async (req, res) => {
   try {
     const test = await Test.findById(req.params.id);
@@ -113,7 +110,6 @@ export const getTestById = async (req, res) => {
   }
 };
 
-// Delete a test by ID
 export const deleteTest = async (req, res) => {
   try {
     const test = await Test.findByIdAndDelete(req.params.id);
@@ -123,3 +119,5 @@ export const deleteTest = async (req, res) => {
     res.status(400).json({ message: "Failed to delete test.", error });
   }
 };
+
+

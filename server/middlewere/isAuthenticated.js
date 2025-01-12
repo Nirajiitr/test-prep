@@ -26,7 +26,7 @@ export const isAuthenticated = (req, res, next) => {
         }
       }
       req.user = {
-        id: decode._id,
+        _id: decode._id,
         fullname: decode.fullname,
         email: decode.email,
         userType: decode.userType,

@@ -7,14 +7,14 @@ import { fetchTests } from "../store/test-slice";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {tests} = useSelector((state) => state.test);
+  const {tests, isLoading} = useSelector((state) => state.test);
   useEffect(()=>{
     dispatch(fetchTests())
   },[dispatch])
   return (
     <div className="font-sans bg-[#0D1117] text-[#EDEDED] h-screen w-screen overflow-x-hidden overflow-y-scroll no-scrollbar flex flex-col">
       <main className="flex-grow">
-        <TestList tests={tests} />
+        <TestList tests={tests} isLoading={isLoading} />
       </main>
       <Footer />
     </div>

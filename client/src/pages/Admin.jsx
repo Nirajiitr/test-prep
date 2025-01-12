@@ -53,16 +53,20 @@ const Admin = () => {
       toast.error("Please fill all question fields.");
       return;
     }
-
-    setQuestions([...questions, currentQuestion]);
+  
+    const questionNum = questions.length + 1; 
+  
+    setQuestions([...questions, { ...currentQuestion, questionNum }]);
     setCurrentQuestion({
       questionText: "",
       options: ["", "", "", ""],
       correctOption: "",
       subject: "mathematics",
     });
+  
     toast.success("Question added successfully!");
   };
+  
 
   const validateDuration = (duration) =>
     /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/.test(duration);
