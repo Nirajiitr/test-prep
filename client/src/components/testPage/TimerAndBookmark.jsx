@@ -50,7 +50,7 @@ const TimerAndBookmark = ({
           Time Left: {formatTime(timeLeft)}
         </div>
         <button onClick={handleEndTest} className="btn btn-neutral">
-          End Test
+          End Test & Submit
         </button>
       </div>
     </div>

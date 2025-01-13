@@ -229,7 +229,7 @@ const testSlice = createSlice({
       .addCase(getBookmarkedQuestions.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload?.message || "Failed to fetch bookmarkedQuestions";
-        toast.error(state.error);
+        
       })
       
       .addCase(getTestById.pending, (state) => {

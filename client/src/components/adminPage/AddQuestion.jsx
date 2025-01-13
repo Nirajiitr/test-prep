@@ -19,7 +19,7 @@ const AddQuestion = ({
             <option value="physics">Physics</option>
             <option value="chemistry">Chemistry</option>
             <option value="biology">Biology</option>
-            <option value="other">Other</option>
+           
           </select>
         </div>
         <div>

@@ -6,8 +6,8 @@ import { getBookmarkedQuestions } from "../store/test-slice";
 const Bookmarks = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { bookmarkedQuestions, isLoading, error } = useSelector((state) => state.test);
-
+  const { bookmarkedQuestions, isLoading} = useSelector((state) => state.test);
+ 
   useEffect(() => {
     if (user?._id) {
       dispatch(getBookmarkedQuestions({ userId: user._id }));
@@ -29,9 +29,7 @@ const Bookmarks = () => {
 
           {isLoading ? (
             <p className="text-center text-lg">Loading your bookmarks...</p>
-          ) : error ? (
-            <p className="text-center text-lg text-red-500">Failed to load bookmarks. Please try again later.</p>
-          ) : bookmarkedQuestions?.length === 0 ? (
+          )  : bookmarkedQuestions?.length === 0 ? (
             <p className="text-lg text-center">You have no bookmarked questions.</p>
           ) : (
             <div className="space-y-6">
