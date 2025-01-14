@@ -7,18 +7,22 @@ import QuestionSummary from "../components/adminPage/QuestionSummary";
 import SubmitButton from "../components/adminPage/SubmitButton";
 import TestDetails from "../components/adminPage/TestDetails";
 import { toast } from "react-hot-toast";
-import { createTest } from "../store/test-slice";
+import { createTest, generateQuesAi } from "../store/test-slice";
 
 const Admin = () => {
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.test);
+  const [isQuesGenerating,setIsQuesGenerating ] = useState(false)
   const token =
-    localStorage.getItem("token") && JSON.parse(localStorage.getItem("token"));
+    sessionStorage.getItem("token") &&
+    JSON.parse(sessionStorage.getItem("token"));
   const [testDetails, setTestDetails] = useState({
     testName: "",
     description: "",
     class: "11",
     duration: "03:00:00",
+    date: "",
+    time: "",
   });
 
   const [questions, setQuestions] = useState([]);
@@ -72,6 +76,11 @@ const Admin = () => {
     /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/.test(duration);
 
   const handleSubmitTest = async () => {
+    if (!testDetails.date || !testDetails.time) {
+      toast.error("Please specify the test schedule (date and time).");
+      return;
+    }
+
     if (!validateDuration(testDetails.duration)) {
       toast.error("Invalid duration format! Use HH:MM:SS.");
       return;
@@ -87,15 +96,16 @@ const Admin = () => {
       questions,
     };
 
-    dispatch(createTest({testData, token}))
+    dispatch(createTest({ testData, token }))
       .unwrap()
-      .then((response) => {
-        toast.success("Test created successfully!");
+      .then(() => {
         setTestDetails({
           testName: "",
           description: "",
           class: "11",
           duration: "03:00:00",
+          date: "",
+          time: "",
         });
         setQuestions([]);
       })
@@ -105,7 +115,31 @@ const Admin = () => {
         );
       });
   };
-
+  const generateQuestion = ({ subject, topic, numQuestions }) => {
+    setIsQuesGenerating(true);
+    dispatch(
+      generateQuesAi({
+        subject,
+        topic,
+        numQuestions,
+      })
+    ).then((res) => {
+      if (res?.payload?.success) {
+        const newQuestions = res.payload.questions.map((question, index) => ({
+          ...question,
+          questionNum: questions.length + index + 1, 
+        }));
+  
+        setQuestions([...questions, ...newQuestions]);
+        setIsQuesGenerating(false);
+      } else {
+        setIsQuesGenerating(false);
+        toast.error("Failed to generate questions using AI.");
+      }
+    });
+  };
+  
+  
   return (
     <div className="bg-gray-900 text-gray-100 h-screen w-screen overflow-y-scroll no-scrollbar p-6 flex flex-col">
       <Header />
@@ -119,6 +153,8 @@ const Admin = () => {
           handleQuestionChange={handleQuestionChange}
           handleOptionChange={handleOptionChange}
           addQuestion={addQuestion}
+          generateQuestion={generateQuestion}
+          isQuesGenerating ={isQuesGenerating}
         />
         <QuestionSummary questions={questions} />
         <SubmitButton

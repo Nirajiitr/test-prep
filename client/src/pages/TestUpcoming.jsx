@@ -9,7 +9,7 @@ const TestUpcoming = () => {
   const dispatch = useDispatch();
   const {tests, isLoading} = useSelector((state) => state.test);
   useEffect(()=>{
-    dispatch(fetchTests())
+    dispatch(fetchTests("upcoming"))
   },[dispatch])
   return (
     <div className="font-sans bg-[#0D1117] text-[#EDEDED] h-screen w-screen overflow-x-hidden overflow-y-scroll no-scrollbar flex flex-col">

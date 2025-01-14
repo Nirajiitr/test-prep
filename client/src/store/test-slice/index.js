@@ -42,10 +42,10 @@ export const createTest = createAsyncThunk(
 
 export const fetchTests = createAsyncThunk(
   "/tests/fetchAll",
-  async (_, { rejectWithValue }) => {
+  async (type, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/api/test/get`,
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/test/get?type=${type}`,
         { withCredentials: true }
       );
       return response.data;
@@ -128,6 +128,22 @@ export const getScoreDetails = createAsyncThunk(
     }
   }
 );
+export const generateQuesAi = createAsyncThunk(
+  "/tests/generateAiQ",
+  async ( {subject, numQuestions, topic})=>{
+    try {
+      const res = await axios.post( `${import.meta.env.VITE_SERVER_BASE_URL}/api/test/generate-questions`, {    
+        subject, numQuestions, topic
+      });
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return error.response.data
+      }
+    }
+   
+  }
+)
 export const SubmitTest = createAsyncThunk(
   "/tests/submit",
   async ({testId, userId, answers,  bookmarkedQuestions} , { rejectWithValue }) => {
@@ -195,7 +211,7 @@ const testSlice = createSlice({
       })
       .addCase(fetchTests.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.tests = action.payload || [];
+        state.tests = action.payload.tests || [];
        
       })
       .addCase(fetchTests.rejected, (state, action) => {

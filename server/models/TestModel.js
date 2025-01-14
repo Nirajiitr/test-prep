@@ -13,6 +13,8 @@ const testSchema = new mongoose.Schema(
     educatorName: { type: String, required: true },
     educatorImg: { type: String },
     duration: { type: String, required: true },
+    date: String,
+    time: String, 
     questions: [
       {
         questionNum : {type : Number, required : true},

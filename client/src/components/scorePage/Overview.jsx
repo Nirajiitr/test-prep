@@ -1,10 +1,10 @@
 import React from "react";
 
 const Overview = ({ results }) => {
-  const { totalMarks, correct, incorrect, unanswered } = results;
-
+  const { totalMarks, correct, incorrect, unanswered, totalQues } = results;
+    const totalMarksForTest = totalQues*4
   const cards = [
-    { title: "Total Marks Scored", value: totalMarks, color: "bg-blue-500" },
+    { title: "Total Marks Scored", value: `${totalMarks}/${totalMarksForTest}`, color: "bg-blue-500" },
     { title: "Correct", value: correct, color: "bg-green-500" },
     { title: "Incorrect", value: incorrect, color: "bg-red-500" },
     { title: "Unanswered", value: unanswered, color: "bg-yellow-500" },

@@ -1,4 +1,6 @@
-const QuestionSummary = ({ questions }) => (
+const QuestionSummary = ({ questions }) =>{
+ 
+ return (
     <section className="bg-gray-800 p-6 rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-4">Questions Summary</h2>
       <div className="w-full h-48 overflow-y-scroll rounded-lg bg-gray-700 p-4">
@@ -16,7 +18,7 @@ const QuestionSummary = ({ questions }) => (
                     Q{index + 1}: {q.questionText}
                   </p>
                   <ul className="text-sm text-gray-300 mt-2">
-                    {q.options.map((opt, idx) => (
+                    {q?.options?.map((opt, idx) => (
                       <li key={idx}>
                         <span className="font-bold">{String.fromCharCode(65 + idx)}:</span>{" "}
                         {opt}
@@ -33,6 +35,6 @@ const QuestionSummary = ({ questions }) => (
         )}
       </div>
     </section>
-  );
+  )};
 
   export default QuestionSummary

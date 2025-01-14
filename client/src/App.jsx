@@ -15,6 +15,8 @@ import { PuffLoader } from "react-spinners";
 import CheckAuth from "./components/CheckAuth";
 import PageNotFound from "./pages/NotFoundPage";
 import { checkAuth } from "./store/auth-slice";
+
+
 const App = () => {
   const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
@@ -45,6 +47,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Default />} />
+     
       <Route
         path="/auth/:mode"
         element={

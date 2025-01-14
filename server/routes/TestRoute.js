@@ -1,5 +1,5 @@
 import express from "express";
-import { createTest, deleteTest, getTestById, getTests } from "../controllers/TestController.js";
+import { generateQuestions, createTest, deleteTest, getTestById, getTests } from "../controllers/TestController.js";
 import { isAuthenticated } from "../middlewere/isAuthenticated.js";
 
 const router = express.Router();
@@ -11,5 +11,6 @@ router.get("/get", getTests);
 router.get("/get/:id", getTestById);
 
 router.delete("/delete/:id", deleteTest);
+router.post("/generate-questions", generateQuestions)
 
 export default router;

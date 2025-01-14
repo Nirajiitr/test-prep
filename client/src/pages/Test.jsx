@@ -126,7 +126,7 @@ const Test = () => {
           <div className="modal modal-open">
             <div className="modal-box  bg-gray-900 text-gray-100 flex flex-col justify-center items-center">
               <h2 className="text-xl font-bold">
-                Are you sure you want to end the test?
+                Are you sure you want to end & submit the test?
               </h2>
               <div className="modal-action">
                 <button className="btn btn-error" onClick={confirmEndTest}>
