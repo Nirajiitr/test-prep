@@ -146,10 +146,10 @@ export const generateQuesAi = createAsyncThunk(
 )
 export const SubmitTest = createAsyncThunk(
   "/tests/submit",
-  async ({testId, userId, answers,  bookmarkedQuestions} , { rejectWithValue }) => {
+  async ({testId, userId, answers,  bookmarkedQuestions, timeTaken} , { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/api/score/test-submit/`, {testId, userId ,answers,  bookmarkedQuestions},
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/score/test-submit/`, {testId, userId ,answers,  bookmarkedQuestions, timeTaken},
         { withCredentials: true }
       );
       return response.data;

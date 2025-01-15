@@ -1,17 +1,15 @@
 import React from "react";
-import { Pie } from "react-chartjs-2";
-import { Bar } from "react-chartjs-2";
+import { Doughnut, Pie, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   ArcElement,
-  BarElement, 
-  CategoryScale, 
-  LinearScale, 
+  BarElement,
+  CategoryScale,
+  LinearScale,
   Tooltip,
-  Legend, 
+  Legend,
   Title,
 } from "chart.js";
-
 
 ChartJS.register(
   ArcElement,
@@ -25,6 +23,61 @@ ChartJS.register(
 
 const Status = ({ results }) => {
   const { marksGained, marksLost, accuracy, subjectStats } = results;
+
+  const doughnutData = {
+    labels: ["Marks Gained", "Marks Lost", "Remaining"],
+    datasets: [
+      {
+        label: "Overall Marks Breakdown",
+        data: [marksGained, marksLost, 100 - (marksGained + marksLost)],
+        backgroundColor: ["#4CAF50", "#FF5252", "#CFCFCF"],
+        hoverOffset: 4,
+      },
+    ],
+  };
+
+  const doughnutOptions = {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => `${tooltipItem.label}: ${tooltipItem.raw} %`,
+        },
+      },
+      legend: {
+        labels: {
+          color: "white",
+        },
+        position: "bottom",
+      },
+    },
+  };
+
+  const accuracyData = {
+    labels: ["Accuracy", "Inaccuracy"],
+    datasets: [
+      {
+        data: [accuracy, 100 - accuracy],
+        backgroundColor: ["#50E3C2", "#FF6F61"],
+        hoverOffset: 4,
+      },
+    ],
+  };
+
+  const accuracyOptions = {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => `${tooltipItem.label}: ${tooltipItem.raw} %`,
+        },
+      },
+      legend: {
+        labels: {
+          color: "white",
+        },
+        position: "bottom",
+      },
+    },
+  };
 
   const pieData = {
     labels: ["Physics", "Chemistry", "Mathematics"],
@@ -41,12 +94,13 @@ const Status = ({ results }) => {
     datasets: [
       {
         label: "Scores",
-        data: [marksGained, marksLost, results.timeTaken],
+        data: [marksGained, marksLost, results.timeTaken/60],
         backgroundColor: ["#4CAF50", "#FF5252", "#FFC107"],
       },
     ],
   };
-  const options = {
+
+  const barOptions = {
     scales: {
       x: {
         ticks: {
@@ -62,12 +116,13 @@ const Status = ({ results }) => {
     plugins: {
       legend: {
         labels: {
-          color: "white", 
+          color: "white",
         },
       },
     },
   };
-  const Pieoptions = {
+
+  const pieOptions = {
     plugins: {
       legend: {
         labels: {
@@ -82,31 +137,33 @@ const Status = ({ results }) => {
       <h2 className="text-2xl font-bold mb-4 text-center">
         Test Statistics & Status
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-[#1E293B] p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold">Overall Statistics</h3>
-          <ul className="list-disc list-inside space-y-2 mt-3">
-            <li className="text-md">Marks Gained: {marksGained}</li>
-            <li className="text-md">Marks Lost: {marksLost}</li>
-            <li className="text-md">Accuracy: {accuracy}%</li>
-          </ul>
+          <h3 className="text-lg font-semibold text-center mb-4">
+            Overall Marks Breakdown
+          </h3>
+          <Doughnut data={doughnutData} options={doughnutOptions} />
         </div>
 
-       
-        <div className="flex flex-col space-y-4">
-          <div className="bg-[#1E293B] p-4 rounded-lg shadow-md ">
-            <h3 className="text-lg font-semibold text-center">
-              Subject-wise Distribution
-            </h3>
-            <Pie data={pieData} options={Pieoptions} />
-          </div>
-          <div className="bg-[#1E293B] p-4 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold text-center">
-              Marks & Performance Breakdown
-            </h3>
-            <Bar data={barData} options={options} />
-          </div>
+        <div className="bg-[#1E293B] p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold text-center mb-4">
+            Overall Accuracy
+          </h3>
+          <Doughnut data={accuracyData} options={accuracyOptions} />
+        </div>
+
+        <div className="bg-[#1E293B] p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold text-center mb-4">
+            Subject-wise Distribution
+          </h3>
+          <Pie data={pieData} options={pieOptions} />
+        </div>
+
+        <div className="bg-[#1E293B] p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold text-center mb-4">
+            Marks & Performance Breakdown
+          </h3>
+          <Bar data={barData} options={barOptions} />
         </div>
       </div>
     </div>

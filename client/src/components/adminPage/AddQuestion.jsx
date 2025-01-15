@@ -155,7 +155,7 @@ const AddQuestion = ({
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-1/3">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-lg lg:w-1/3">
             <h2 className="text-xl font-bold mb-4">Generate Questions Using AI</h2>
             <form className="space-y-4" onSubmit={handleGenerate}>
               <div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import TestCard from "./TestCard";
+import { PuffLoader } from "react-spinners";
 
 const TestList = ({ tests, isUpcoming, isLoading }) => {
   return (
@@ -14,7 +15,11 @@ const TestList = ({ tests, isUpcoming, isLoading }) => {
         {isUpcoming ? "Upcoming Tests" : "Available Tests"}
       </h2>
       {isLoading ? (
-        <span>Loading...</span>
+       <div className="w-screen h-screen flex items-center justify-center">
+       <PuffLoader color="#3671d6" size="40px" />
+     </div>
+      ) : tests.length === 0 ? (
+        <span>No Tests Available</span>
       ) : (
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"

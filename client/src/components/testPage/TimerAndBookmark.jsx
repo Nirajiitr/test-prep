@@ -6,28 +6,54 @@ const TimerAndBookmark = ({
   bookmarked,
   currentQuestion,
   questions,
- 
+  duration,
   handleEndTest,
 }) => {
-  const [timeLeft, setTimeLeft] = useState(3600);
-   const timeInterval = useRef(null); 
-   useEffect(() => {
-     
-      timeInterval.current = setInterval(() => {
-        setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-      }, 1000);
-  
-      
-      return () => clearInterval(timeInterval.current);
-    }, []); 
-    const formatTime = (time) => {
-      const minutes = Math.floor(time / 60);
-      const seconds = time % 60;
-      return `${minutes.toString().padStart(2, "0")}:${seconds
+ 
+  const convertDurationToSeconds = (duration) => {
+    const [hours, minutes, seconds] = duration.split(":").map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
+  };
+
+  const [timeLeft, setTimeLeft] = useState(() => convertDurationToSeconds(duration));
+  const timeInterval = useRef(null);
+
+  useEffect(() => {
+    
+    timeInterval.current = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime > 0) {
+          return prevTime - 1;
+        } else {
+         
+          clearInterval(timeInterval.current);
+          handleEndTest();
+          return 0;
+        }
+      });
+    }, 1000);
+
+   
+    return () => clearInterval(timeInterval.current);
+  }, [handleEndTest]);
+
+ 
+  const formatTime = (time) => {
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = time % 60;
+
+    if (hours > 0) {
+      return `${hours.toString().padStart(2, "0")}:${minutes
         .toString()
-        .padStart(2, "0")}`;
-    };
-  
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    }
+
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
   return (
     <div className="flex justify-between items-start sm:items-center">
       <button

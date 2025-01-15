@@ -34,6 +34,7 @@ const scoreSchema = new mongoose.Schema(
           attempted: { type: Number, required: true }, 
           marksGained: { type: Number, required: true }, 
           marksLost: { type: Number, required: true }, 
+          totalSubQues: { type: Number, required: true, default:0 }, 
         },
         { _id: false }
       ),

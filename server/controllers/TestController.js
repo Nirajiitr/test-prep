@@ -66,7 +66,7 @@ export const createTest = async (req, res) => {
       time,
       educatorId: teacher._id,
       educatorName: teacher.fullname,
-      educatorImg: "https://via.placeholder.com/40", 
+      educatorImg: "https://img.icons8.com/?size=100&id=52232&format=png&color=000000", 
     });
 
     await newTest.save();

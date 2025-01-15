@@ -4,9 +4,9 @@ import { User } from "../models/AuthModel.js";
 
 export const submitTest = async (req, res) => {
   try {
-    const { testId, userId, answers, bookmarkedQuestions } = req.body;
-     
-    if (!testId || !userId || !answers) {
+    const { testId, userId, answers, bookmarkedQuestions, timeTaken  } = req.body;
+
+    if (!testId || !userId || !answers || !timeTaken) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -25,22 +25,20 @@ export const submitTest = async (req, res) => {
       unanswered = 0,
       marksGained = 0,
       totalQues = 0,
-      marksLost = 0;
+      marksLost = 0,
+      totalSubQues= 0;
     const subjectStats = {};
     const sectionStats = {};
 
     test.questions.forEach((question) => {
       const questionNum = question.questionNum;
-      const answer = answers[questionNum] !== undefined ? String.fromCharCode(65 + answers[questionNum]) : undefined; 
-      
+      const answer = answers[questionNum] !== undefined ? String.fromCharCode(65 + answers[questionNum]) : undefined;
+
       if (answer === undefined) {
         unanswered++;
-      } else if (
-        answer ===
-        question.correctOption
-      ) {
+      } else if (answer === question.correctOption) {
         correct++;
-        marksGained += 4; 
+        marksGained += 4;
       } else {
         incorrect++;
         marksLost += 1;
@@ -49,7 +47,7 @@ export const submitTest = async (req, res) => {
       const subject = question.subject;
       if (!subjectStats[subject]) subjectStats[subject] = 0;
       if (!sectionStats[subject]) {
-        sectionStats[subject] = { attempted: 0, marksGained: 0, marksLost: 0 };
+        sectionStats[subject] = { attempted: 0, marksGained: 0, marksLost: 0, totalSubQues: 0 };
       }
 
       if (answer !== undefined) {
@@ -61,10 +59,14 @@ export const submitTest = async (req, res) => {
           sectionStats[subject].marksLost += 1;
         }
       }
-      totalQues++
-    });
 
-    const totalMarks = (correct * 4)-incorrect ; 
+    
+      sectionStats[subject].totalSubQues+=1;
+     
+      totalQues++;
+    });
+   
+    const totalMarks = (correct * 4) - incorrect;
 
     const accuracy = ((correct / test.questions.length) * 100).toFixed(2);
 
@@ -78,11 +80,11 @@ export const submitTest = async (req, res) => {
       marksGained,
       marksLost,
       accuracy,
-      timeTaken: 0,
+      timeTaken: timeTaken,
       subjectStats,
       sectionStats,
       totalQues,
-      bookmarkedQuestions
+      bookmarkedQuestions,
     });
 
     await score.save();
@@ -96,6 +98,7 @@ export const submitTest = async (req, res) => {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
+
 
 export const getTestHistory = async (req, res) => {
   try {
