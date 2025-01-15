@@ -4,13 +4,14 @@ const QuestionSection = ({
   answers,
   handleAnswer,
 }) => {
+ 
   return (
     <div className="flex-grow flex flex-col items-center justify-center text-center">
       <div className="grid grid-cols-1 gap-4 w-full max-w-md">
       <div className="flex flex-col  justify-center gap-1 mb-6">
         <h2 className="text-xl w-full text-left font-bold ">
           <span>
-            {questions[currentQuestion]?.quesNumber || currentQuestion + 1}.
+            {questions[currentQuestion]?.questionNum || currentQuestion + 1}.
           </span>{" "}
           {questions[currentQuestion]?.questionText || "Question not found"}
         </h2>

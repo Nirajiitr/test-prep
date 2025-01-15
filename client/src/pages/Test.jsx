@@ -17,7 +17,7 @@ const Test = () => {
   const [startTime, setStartTime] = useState(null); 
   const { ongoingTest } = useSelector((state) => state.test);
   const { user } = useSelector((state) => state.auth);
-
+  const [isSideOpen, setSideOpen] = useState(false)
   useEffect(() => {
     if (!ongoingTest) {
       navigate("/user/home");
@@ -92,7 +92,7 @@ const Test = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-900 text-gray-100">
+    <div className="flex h-screen bg-gray-900 text-gray-100 relative">
       {ongoingTest && (
         <Sidebar
           sortedQuestions={sortedQuestions}
@@ -101,6 +101,8 @@ const Test = () => {
           handleQuestionClick={handleQuestionClick}
           answers={answers}
           bookmarked={bookmarked}
+          isSideOpen={isSideOpen}
+          setSideOpen={setSideOpen}
         />
       )}
 
@@ -114,6 +116,7 @@ const Test = () => {
               questions={questions}
               handleEndTest={handleEndTest}
               duration={ongoingTest?.duration}
+              setSideOpen ={setSideOpen}
             />
             <QuestionSection
               questions={questions}

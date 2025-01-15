@@ -1,3 +1,5 @@
+import { IoCloseCircleOutline } from "react-icons/io5";
+
 const Sidebar = ({
   sortedQuestions,
   calculateCounts,
@@ -5,13 +7,18 @@ const Sidebar = ({
   handleQuestionClick,
   answers,
   bookmarked,
+  isSideOpen,
+  setSideOpen
 }) => (
-  <aside className="w-1/4 bg-gray-800 p-4 h-screen overflow-y-scroll hidden sm:block">
-    <h3 className="text-lg font-bold mb-4">Questions</h3>
+  <aside className={`w-1/2 sm:w-1/4 bg-gray-800 p-4 h-screen overflow-y-scroll  sm:relative ${isSideOpen? " absolute left-0 top-0 z-20": "hidden"}  sm:block`}>
+    <div className="mb-4 flex justify-between items-center">
+    <h3 className="text-lg font-bold ">Questions</h3>
+     <button className={isSideOpen? "block" : "hidden"} onClick={()=>setSideOpen(false)}><IoCloseCircleOutline size={30} /></button>
+    </div>
     {sortedQuestions.map(({ subject, questions }) => {
       const { answered, marked, unanswered } = calculateCounts(subject);
       return (
-        <div key={subject} className="mb-6">
+        <div key={subject} className="mb-6 ">
           <div className="flex flex-col items-start justify-center mb-4">
             <h4 className="text-blue-400 font-semibold">{subject}</h4>
             <span className="text-sm">Attempt all</span>
@@ -49,7 +56,7 @@ const Sidebar = ({
                   answers[q.questionNum] !== undefined ? "border-green-500" : ""
                 }`}
               >
-                {q.quesNumber}
+                {q.questionNum}
               </button>
             ))}
           </div>
