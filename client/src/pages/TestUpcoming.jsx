@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Footer from '../components/defaultPage/Footer'
 import TestList from '../components/homePage/TestList'
-import { tests } from '../data'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchTests } from '../store/test-slice'
 

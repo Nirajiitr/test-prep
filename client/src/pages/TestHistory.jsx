@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Footer from "../components/defaultPage/Footer";
 import TestHistoryCard from "../components/testHistory/TestHistoryCard";
-import { testHistory } from "../data";
+
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { getTestHistory } from "../store/test-slice";
