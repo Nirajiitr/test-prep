@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { loginUser, registerUser } from "../store/auth-slice";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { PuffLoader } from "react-spinners";
 
 const AuthComponent = () => {
   const { mode } = useParams();
@@ -89,6 +90,13 @@ const AuthComponent = () => {
       stream: "jee",
     });
   };
+  if (isLoading) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center  bg-[#0D1117] text-[#EDEDED]">
+        <PuffLoader color="#EDEDED" size="40px" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#0D1117] text-[#EDEDED]">

@@ -4,6 +4,7 @@ import TestCard from "./TestCard";
 import { PuffLoader } from "react-spinners";
 
 const TestList = ({ tests, isUpcoming, isLoading }) => {
+  
   return (
     <motion.section
       className="py-16 px-6"
@@ -42,7 +43,7 @@ const TestList = ({ tests, isUpcoming, isLoading }) => {
                 visible: { opacity: 1, y: 0 },
               }}
             >
-              <TestCard test={test} />
+              <TestCard test={test} isUpcoming={isUpcoming} />
             </motion.div>
           ))}
         </motion.div>

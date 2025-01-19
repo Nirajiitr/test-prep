@@ -7,6 +7,49 @@ A comprehensive and interactive test preparation platform designed for JEE/NEET 
   [https://test-prep.onrender.com](https://test-prep.onrender.com)
   
 
+## 🏁 Getting Started  
+1. Clone the repository.  
+2. Install dependencies for both client and server.  
+3. Configure environment variables for MongoDB and other APIs.  
+4. Start the development server for both frontend and backend.  
+
+```bash  
+# Clone the repository  
+git clone https://github.com/Nirajiitr/test-prep.git  
+
+# Navigate to client directory  
+cd client  
+npm install  
+npm start  
+
+# Navigate to server directory  
+cd server  
+npm install  
+npm run dev  
+```  
+
+## Environment Variables
+
+Create a `.env` file in the root of your `server` folder and add the following environment variables:
+
+```plaintext
+DB_URL=your_mongodb_uri
+JWT_SECRET=your_jwt_secret_key
+CLIENT_BASE_URL=Your_CLIENT_BASE_URL
+API_KEY = your_cloud_api_key
+OPENAI_API_KEY = your_OPENAI_API_KEY
+```
+
+
+Create a `.env` file in the root of your `client` folder and add the following environment variables:
+
+```plaintext
+
+VITE_SERVER_BASE_URL=Your_SERVER_BASE_URL
+
+```
+
+
 ## 🚀 Features  
 
 ### 🎯 Realistic Test Interface  
@@ -34,27 +77,6 @@ A comprehensive and interactive test preparation platform designed for JEE/NEET 
 - **Backend**: Node.js, Express.js  
 - **Database**: MongoDB  
 - **Additional Tools**: Chart.js for analytics, Material UI for design, tailwind css for design.  
-
-## 🏁 Getting Started  
-1. Clone the repository.  
-2. Install dependencies for both client and server.  
-3. Configure environment variables for MongoDB and other APIs.  
-4. Start the development server for both frontend and backend.  
-
-```bash  
-# Clone the repository  
-git clone https://github.com/Nirajiitr/test-prep.git  
-
-# Navigate to client directory  
-cd client  
-npm install  
-npm start  
-
-# Navigate to server directory  
-cd server  
-npm install  
-npm run dev  
-```  
 
 ## 🤝 Contributing  
 Contributions are welcome! Feel free to open issues and submit pull requests.  
