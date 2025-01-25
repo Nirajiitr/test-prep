@@ -132,9 +132,7 @@ export const getTests = async (req, res) => {
     }
 
     const currentDate = moment().format("YYYY-MM-DD");
-    const currentTime = moment().format("HH:mm"); 
-
-    
+    const currentTime = moment().format("HH:mm");  
     const tests = await Test.find();
      
   

@@ -22,6 +22,7 @@ const scoreSchema = new mongoose.Schema(
     marksLost: { type: Number, required: true }, 
     accuracy: { type: Number, required: true }, 
     timeTaken: { type: Number, required: true }, 
+    allQuestions: { type: Array, required: true },
     subjectStats: {
       type: Map,
       of: Number, 

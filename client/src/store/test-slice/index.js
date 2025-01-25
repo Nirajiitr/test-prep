@@ -113,7 +113,7 @@ export const getTestById = createAsyncThunk(
 export const getScoreDetails = createAsyncThunk(
   "/tests/history/result",
   async ({scoreId}, { rejectWithValue }) => {
-    console.log(scoreId)
+    
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_SERVER_BASE_URL}/api/score/${scoreId}`,

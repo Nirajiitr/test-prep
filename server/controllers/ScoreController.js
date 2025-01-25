@@ -85,6 +85,7 @@ export const submitTest = async (req, res) => {
       sectionStats,
       totalQues,
       bookmarkedQuestions,
+      allQuestions: test.questions,
     });
 
     await score.save();

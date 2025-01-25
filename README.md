@@ -20,7 +20,7 @@ git clone https://github.com/Nirajiitr/test-prep.git
 # Navigate to client directory  
 cd client  
 npm install  
-npm start  
+npm run dev 
 
 # Navigate to server directory  
 cd server  
