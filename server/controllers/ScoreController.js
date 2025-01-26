@@ -27,7 +27,7 @@ export const submitTest = async (req, res) => {
       totalQues = 0,
       marksLost = 0,
       totalSubQues= 0;
-    const subjectStats = {};
+   
     const sectionStats = {};
 
     test.questions.forEach((question) => {
@@ -45,13 +45,13 @@ export const submitTest = async (req, res) => {
       }
 
       const subject = question.subject;
-      if (!subjectStats[subject]) subjectStats[subject] = 0;
+     
       if (!sectionStats[subject]) {
         sectionStats[subject] = { attempted: 0, marksGained: 0, marksLost: 0, totalSubQues: 0 };
       }
 
       if (answer !== undefined) {
-        subjectStats[subject] += marksGained;
+       
         sectionStats[subject].attempted++;
         if (answer === question.correctOption.toUpperCase()) {
           sectionStats[subject].marksGained += 4;
@@ -68,7 +68,7 @@ export const submitTest = async (req, res) => {
    
     const totalMarks = (correct * 4) - incorrect;
 
-    const accuracy = ((correct / test.questions.length) * 100).toFixed(2);
+    const accuracy = ((correct /(correct+incorrect)) * 100).toFixed(2);
 
     const score = new Score({
       studentId: userId,
@@ -81,7 +81,7 @@ export const submitTest = async (req, res) => {
       marksLost,
       accuracy,
       timeTaken: timeTaken,
-      subjectStats,
+     
       sectionStats,
       totalQues,
       bookmarkedQuestions,

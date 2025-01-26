@@ -71,8 +71,8 @@ const AddQuestion = ({
             }`}
           >
             <option value="">Select Subject</option>
-            <option value="mathematics">Mathematics</option>
             <option value="physics">Physics</option>
+            <option value="mathematics">Mathematics</option>
             <option value="chemistry">Chemistry</option>
             <option value="biology">Biology</option>
           </select>
@@ -170,8 +170,8 @@ const AddQuestion = ({
                   required
                 >
                   <option value="">Select Subject</option>
-                  <option value="mathematics">Mathematics</option>
                   <option value="physics">Physics</option>
+                  <option value="mathematics">Mathematics</option>
                   <option value="chemistry">Chemistry</option>
                   <option value="biology">Biology</option>
                 </select>

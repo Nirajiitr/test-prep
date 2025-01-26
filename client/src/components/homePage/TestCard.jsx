@@ -30,7 +30,7 @@ const TestCard = ({ test, isUpcoming }) => {
           className="w-12 h-12 rounded-full object-cover"
         />
         <div>
-          <h3 className="text-lg font-bold">{test.educatorName}</h3>
+          <h3 className="text-lg font-bold">By: {test.educatorName}</h3>
         </div>
       </div>
       <h4 className="text-xl font-semibold text-blue-400">{test.testName}</h4>

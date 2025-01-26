@@ -51,9 +51,9 @@ const Sidebar = ({
                     ? "bg-blue-800 text-white"
                     : ""
                 } ${
-                  bookmarked.includes(q.questionNum) ? "border-yellow-500" : ""
+                  bookmarked.includes(q.questionNum) ? "border-yellow-500 bg-yellow-400" : ""
                 } ${
-                  answers[q.questionNum] !== undefined ? "border-green-500" : ""
+                  answers[q.questionNum] !== undefined ? "border-green-700 bg-green-500" : ""
                 }`}
               >
                 {q.questionNum}

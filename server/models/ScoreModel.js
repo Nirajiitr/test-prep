@@ -23,11 +23,7 @@ const scoreSchema = new mongoose.Schema(
     accuracy: { type: Number, required: true }, 
     timeTaken: { type: Number, required: true }, 
     allQuestions: { type: Array, required: true },
-    subjectStats: {
-      type: Map,
-      of: Number, 
-      default: {},
-    },
+    
     sectionStats: {
       type: Map,
       of: new mongoose.Schema(

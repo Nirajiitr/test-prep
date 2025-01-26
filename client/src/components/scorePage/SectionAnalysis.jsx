@@ -6,7 +6,7 @@ const SectionAnalysis = ({ results }) => {
 
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
-    console.log(allQuestions)
+   
   return (
     <div className="bg-[#1E293B] rounded-lg p-6 shadow-lg mt-6 text-gray-100">
       <h2 className="text-2xl font-semibold mb-6 text-center text-primary">

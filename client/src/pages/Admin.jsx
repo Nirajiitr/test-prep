@@ -30,7 +30,7 @@ const Admin = () => {
     questionText: "",
     options: ["", "", "", ""],
     correctOption: "",
-    subject: "mathematics",
+    subject: "physics",
   });
 
   const handleTestDetailsChange = (e) => {
@@ -65,7 +65,7 @@ const Admin = () => {
       questionText: "",
       options: ["", "", "", ""],
       correctOption: "",
-      subject: "mathematics",
+      subject: "physics",
     });
   
     toast.success("Question added successfully!");
